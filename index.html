@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+    <style>
+      .response-replies {
+        margin-left: 2rem;
+      }
+      .comments-container {
+        padding-left: 10vw;
+        padding-right: 10vw;
+        max-height: 50vw;
+        overflow-y: scroll;
+      }
+      .comments-container, .response-content, .response-replies {
+        margin-top: 0px;
+        padding-top: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+      }
+      .response-author {
+         background-color: rgba(128,128,128, 0.25);
+         width: fit-content;
+         margin: 0;
+      }
+      .response-content p {
+        margin-top: 0;
+        margin-bottom: 0.1rem;
+      }
+      </style>      
+  </head>
+  <body>
+    <div id="app">
+      <div class="comments-container">
+        <div class="response" data-host="mastodon.social" data-status="110826278791052494" data-status-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
+          <div class="response-author" data-response-type="author"></div>
+          <div class="response-content" data-response-type="content"></div>
+          <div class="response-replies" data-response-type="replies"></div>
+        </div>  
+      </div>
+    </div>
+    <script type="module" src="/src/index.ts"></script>
+  </body>
+</html>

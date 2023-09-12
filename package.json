@@ -1,0 +1,17 @@
+{
+  "name": "fediposts",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.2",
+    "esbuild-plugin-tsc": "^0.4.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  }
+}
