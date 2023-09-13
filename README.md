@@ -7,15 +7,24 @@ Load the script into a page that contains HTML with annotations that tell the sc
 ### Your HTML template
 
 #### Root element: `data-status-url`
-Identify the root element of the template using either the single attribute `data-status-url` or the dual attributes `data-host` and `data-status`. The `data-status-url` attribute the URL to a status post on a server that supports the Mastodon v1 API. For example:
-`data-status-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494"`.
+Identify the root element of the template using the attribute `data-status-url`, which should contain the URL to a post (a `status` in FediVerse speak) on a server that supports the Mastodon v1 API. For example:
+```html
+	<div data-status-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
+	</div>
+```
 
-Or, break that down into `data-host="mastodon.social"` and `data-status="110826278791052494"`
+Your root element may also include the optional attributes:
+ - `data-max`: a number representing the maximum number of posts to display.
+ - `data-exclude`: a comma-separated list of status IDs of posts to exclude (e.g., those you found disrespectful). Responses to this response (and so on) will also be excluded. The status id is the long number associated with a post.
+ - `data-include`: a comma-separated list of status IDs of responses to try to include within the limits of the maximum number of posts to display.
+
 
 #### Child elements: `author`, `content`, & `replies`
 Under your root element place three child elements: one for the `author` of the post, one for the `content` of the post, and one for any `replies` to that post. The sub-elements should either have classes of `author`, `content`, and `replies` or have attribute `data-response-type` set to each of those three strings.
 
-Within the author element you may place two sub elements for the author's display name (class `author-name` or `data-response-type="response-author-name"`, to be populated with a display name such as 'Stuart Schechter') and the fediverse handle of the user (class `author-handle` or  `data-response-type="response-author-handle"`, to be populated with a handle such as  @MildlyAggrievedScientist@mastodon.social).
+Within the author element you may place two sub elements with classes:
+ - `author-name`: to be populated with the author's display name, such as  'Stuart Schechter'. If not used, the display name will be added into the element with the `author` class.
+ - `author-handle`: to be populated with the author's fediverse handle (e.g., @MildlyAggrievedScientist@mastodon.social). If not used, the handle will be added into the element with the `author` class after the display name.
 
 Example using standard class names to identify child elements
 ```html
@@ -38,17 +47,16 @@ Example using standard class names to identify child elements
  - `replies`: identifies the element into which replies should be added. For left-to-right languages like english, this class should have a `margin-left` styling to shift replies to the right. A more language-agnostic approach can also be implemented via flex-boxes.
  - `author-name`: the child of the author element into which to place the display name of the author. If not set, the script will add a child element to the `author` element to hold the author's display name.
  - `author-handle`: the child of the author element into which to place the fediverse handle (@name@host) of the author. If not set, the script will insert an child of the `author` element to hold the author's handle.
- - `fediverse-handle-name`: the script will add this class to the user name of a fediverse handle of the author of a post. For @MildlyAggrievedScientist@Mastodon.social, this class will be added to the element containing the @MildlyAggrievedScientist (currently implemented as an A element linking to the user's fediverse account.)
- - `fediverse-host-name`: the script will add to the host name of a fediverse handle of the author of a post. For @MildlyAggrievedScientist@Mastodon.social, this class will be added to the element containing the @Mastodon.social (currently implemented as an span element)
+ - `fediverse-handle-name`: the script will add this class to the user name of a fediverse handle of the author of a post. For @MildlyAggrievedScientist@Mastodon.social, this class will be added to the element containing the @MildlyAggrievedScientist (currently implemented as an A element linking to the user's fediverse account). The script will NOT look for elements with the class name. It will only add it.
+ - `fediverse-host-name`: the script will add to the host name of a fediverse handle of the author of a post. For @MildlyAggrievedScientist@Mastodon.social, this class will be added to the element containing the @Mastodon.social (currently implemented as an span element).  The script will NOT look for elements with the class name. It will only add it.
 
-### Data-response-types
-If you have reason not to use the above class names, you can identify them to the script using the `data-response-type` attribute and set it to the class name. For example, instead of using the class `author`, you can set `data-response-typ='author'`.
+### Specifying elements using `data-response-type`
+If you have reason not to use the above class names, you can identify elements to the script using the attribute `data-response-type` set to the specified class name for that element type. For example, for the element you want to contain the author, instead of assigning the class `author`, you can set the element's attribute `data-response-typ='author'`.
 
 
-Example using the `data-response-type` attribute to identify child elements
+So, one could create the following template using the attribute `data-response-type` attribute to identify child elements
 ```html
-<div class="response"
-	data-status-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
+<div data-status-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
 	<div data-response-type="author">
 		<span data-response-type="author-name"></span>
 		<span data-response-type="author-handle"></span>
