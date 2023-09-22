@@ -21,7 +21,7 @@ export type CommentClassNames =
 		"comment-content" |
 		"comment-footer" |
 			"comment-counters" |
-				"comment-counter-favorites" |
+				"comment-counter-favourites" |
 				"comment-counter-reblogs" |
 			"comment-time" |
 		"comment-replies"
@@ -146,11 +146,11 @@ export const renderComments = (comments: Status[], originalPosterAccount: Accoun
 				] : []),
 				...(comment.favourites_count > 0 ? [
 					constructElement("a", {
-						classes: ["comment-counter-favorites"],
+						classes: ["comment-counter-favourites"],
 						textContent: `${comment.favourites_count}`,
 						attributes: {
 							href: `${comment.url}/favourites`,
-							title: `Favorites reported by ${commentAuthorsFediverseHost}`,
+							title: `favourites reported by ${commentAuthorsFediverseHost}`,
 						}
 					})
 				] : [])
