@@ -1,7 +1,4 @@
 .fediverse-comments {
-	/* background-color: var(--body-background);
-	border-radius: var(--card-border-radius);
-	padding: var(--card-padding); */
 	margin-bottom: 0.5rem;
 	display: flex;
 	flex-direction: column;
@@ -17,6 +14,9 @@
 	align-items: start;
 	margin-left: 1rem;        
 }
+.fediverse-comments .fediverse-comment {
+	margin-top: 0.5rem;
+}
 .fediverse-comments .comment-content {
 	display: flex;
 	flex-direction: column;
@@ -25,27 +25,57 @@
 .fediverse-comments .comment-content .comment-content {
 	margin-top: 0.5rem;
 }
+.fediverse-comments .comment-authors-avatar-link {
+	text-decoration: none;
+	box-shadow: none;
+}
 .fediverse-comments .comment-authors-avatar {
 	max-height: 3rem;
 }
 .fediverse-comments .comment-content p {
 	margin-top: .25rem;
+	padding-left: 0.5rem;
 }
 .fediverse-comments .comment-content p:first-child {
 	margin: 0;
 }
-/*  Header at the top of a comment */
+/*  Header at the top of a comment. Footer at the bottom. */
 .fediverse-comments .comment-header, .fediverse-comments .comment-footer {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: center;
 	gap: .5rem;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+.fediverse-comments .comment-header {
+	background-color: rgba(196, 196, 255, 0.25);
+	border-top-left-radius: 0.5rem;
+	border-top-right-radius: 0.5rem;
 }
 .fediverse-comments .comment-footer {
+	background-color: rgba(196, 196, 255, 0.25);
 	justify-content: space-between;
 	font-size: 0.75rem;
+	border-bottom-left-radius: 0.5rem;
+	border-bottom-right-radius: 0.5rem;
 }
+body.dark .fediverse-comments .comment-header {
+	background-color: rgba(0, 0, 64, 0.125);
+}
+body.dark .fediverse-comments .comment-footer {
+	background-color: rgba(0, 0, 64, 0.125);
+}
+/* content between the header and footer of a comment */
+.fediverse-comments .comment-content {
+	background-color: rgba(196, 196, 255, 0.125);
+}
+body.dark .fediverse-comments .comment-content {
+	background-color: rgba(0, 0, 64, 0.0625);
+}
+
+
 .fediverse-comments .comment-authors-display-name {
 	font-weight: bold;
 }
@@ -59,12 +89,15 @@
 	align-items: start;
 }
 .fediverse-comments .comment-authors-fediverse-identity {
-	background-color: rgba(128,128,128, 0.2);  /* FIXME */
+	background-color: rgba(128,128,128, 0.2);
 	border-radius: 0.5rem;
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
 	text-decoration: none;
+	box-shadow: none;
 }
+
+
 .fediverse-comments .comment-date {
 	margin-left: auto;
 }
@@ -79,6 +112,7 @@
 }
 .fediverse-comments .comment-counter-favorites, .fediverse-comments .comment-counter-reblogs {
 	text-decoration: none;
+	box-shadow: none;
 }
 .fediverse-comments .comment-counter-favorites::before {
 	/* color: red; */
@@ -95,6 +129,7 @@
 	display: flex;
 	margin-left: auto;
 }
+	
 
 .fediverse-account-list {
 	display: flex;
