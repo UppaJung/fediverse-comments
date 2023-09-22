@@ -46,7 +46,7 @@ Example using standard class names to identify child elements
 	<div class="response-content"></div>
 	<div class="response-replies"></div>
 </div>
-<script src="/fedicomments.js"></script>
+<script src="/fedi-comments.js"></script>
 ```
 
 
@@ -74,5 +74,5 @@ So, one could create the following template using the attribute `data-response-t
 	<div data-response-type="content"></div>
 	<div data-response-type="replies"></div>
 </div>
-<script src="/fedicomments.js"></script>
+<script src="/fedi-comments.js"></script>
 ```
