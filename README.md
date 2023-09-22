@@ -1,15 +1,25 @@
-# FediPosts
+# Fedi-Comments
 
-A Script to load a Mastodon reply stream into a webpage (e.g., as a means of allowing comments on an article).
+A Script to load a Mastodon status (post/Toot) and it's reply stream (comments) into a webpage, so as to allow blog posts to have comments hosted on Mastodon (or any other Fediverse server supporting the MastodonV1 API).
 
 Load the script into a page that contains HTML with annotations that tell the script where to find the root Mastodon post and a template into which comments will be placed.
 
-### Your HTML template
+### HTML template for Favourites/Reblogs
 
-#### Root element: `data-status-url`
-Identify the root element of the template using the attribute `data-status-url`, which should contain the URL to a post (a `status` in FediVerse speak) on a server that supports the Mastodon v1 API. For example:
+#### Root elements
+ - `data-reblogged-url`
+ - `data-favourited-url`
+
+#### Child elements: `img`, `name`
+
+
+
+### HTML template for Comments
+
+#### Root element: `data-responses-to-url`
+Identify the root element of the template using the attribute `data-responses-to-url`, which should contain the URL to a post (a `status` in FediVerse speak) on a server that supports the Mastodon v1 API. For example:
 ```html
-	<div data-status-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
+	<div data-responses-to-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
 	</div>
 ```
 
@@ -28,7 +38,7 @@ Within the author element you may place two sub elements with classes:
 
 Example using standard class names to identify child elements
 ```html
-<div data-status-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
+<div data-responses-to-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
 	<div class="response-author">
 		<span class="response-author-name"></span>
 		<span class="response-author-handle"></span>
@@ -56,7 +66,7 @@ If you have reason not to use the above class names, you can identify elements t
 
 So, one could create the following template using the attribute `data-response-type` attribute to identify child elements
 ```html
-<div data-status-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
+<div data-responses-to-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
 	<div data-response-type="author">
 		<span data-response-type="author-name"></span>
 		<span data-response-type="author-handle"></span>
