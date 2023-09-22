@@ -2,7 +2,7 @@ import { build } from 'esbuild';
 
 await build({
   entryPoints: ['src/index.ts'],
-  outfile: "lib/fedicomments.js",
+  outfile: "lib/fediverse-comments.js",
   bundle: true,
   minify: true,
   sourcemap: true,
@@ -11,7 +11,7 @@ await build({
 
 await build({
   entryPoints: ['src/index.ts'],
-  outfile: "lib/fedicomments-debug.js",
+  outfile: "lib/fediverse-comments-debug.js",
   bundle: true,
   minify: false,
   sourcemap: true,

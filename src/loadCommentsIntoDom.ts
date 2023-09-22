@@ -20,7 +20,7 @@ export const loadCommentsIntoDom = async (rootCommentElement: HTMLElement) => {
 	const dataAttributes = ((rootCommentElement as HTMLElement)?.dataset ?? {}) as RootElementDataAttributes;
 	const hideRootComment = dataAttributes.hideRootComment != null && dataAttributes.hideRootComment !== "false";
 	const includeSet = new Set<string>((dataAttributes.include ?? "").split(',').map(e => e.trim()));
-	const excludeSet = new Set<string>((dataAttributes.exclude ?? "").split(',').map(e => e.trim()));
+	const excludeSet = new Set<string>((dataAttributes.exclude ?? "").split(',').map(e => e.trim().toLocaleLowerCase()));
 	const maxResponses = parseInt(dataAttributes.max ?? "");
 	const statusUrl = dataAttributes["responsesToUrl"];
 	const { host, status } = statusUrl != null ? urlToStatusQuery(statusUrl) : dataAttributes;
@@ -34,11 +34,11 @@ export const loadCommentsIntoDom = async (rootCommentElement: HTMLElement) => {
 	const comments = [
 		...(hideRootComment ? [] : [original]),
 		...replies.filter(r => {
-			if (excludeSet.has(r.id)) {
+			if (excludeSet.has(r.id.toLocaleLowerCase()) || excludeSet.has(r.account.username.toLocaleLowerCase()) || excludeSet.has(r.account.id.toLocaleLowerCase()) ) {
 				return false;
 			} else if (r.in_reply_to_id != null && excludeSet.has(r.in_reply_to_id)) {
 				// descendants of excluded posts should also be excluded.
-				excludeSet.add(r.id);
+				excludeSet.add(r.id.toLocaleLowerCase());
 				return false;
 			} else {
 				return true;
@@ -49,7 +49,8 @@ export const loadCommentsIntoDom = async (rootCommentElement: HTMLElement) => {
 	// filter out responses that exceed length limit (though scrolling is recommended instead)
 	if (!isNaN(maxResponses)) {
 		for (var i = comments.length - 1; i > 0 && comments.length > maxResponses; i--) {
-			if (!includeSet.has(comments[i].id)) {
+			const c = comments[i];
+			if (!(includeSet.has(c.id.toLocaleLowerCase()) || excludeSet.has(c.account.username.toLocaleLowerCase()) || excludeSet.has(c.account.id.toLocaleLowerCase()))) {
 				comments.splice(i, 1);
 			}
 		}

@@ -9,10 +9,9 @@ type RootDataAttribute = NonNullable<(typeof DataAttributes)[number]>;
 export type RootElementDataAttributes = Partial<Record<RootDataAttribute, string>>;
 
 export type AccountListClassNames =
-	"fediverse-account-list" |
-		"fediverse-account" |
-			"fediverse-account-avatar-link" |
-				"fediverse-account-avatar"
+	"fediverse-account" |
+		"fediverse-account-avatar-link" |
+			"fediverse-account-avatar"
 ;
 
 const constructElement = constructElementFactory<AccountListClassNames>();
@@ -62,7 +61,7 @@ export const renderAccountList = (parent: HTMLElement, accounts: Account[]) => {
 export const loadAccountListsIntoDom = async (listType: "reblogged" | "favourited", url: string, listContainerElement: HTMLElement) => {
 	// extra data from data attributes
 	const dataAttributes = ((listContainerElement as HTMLElement)?.dataset ?? {}) as RootElementDataAttributes;
-	const excludeSet = new Set<string>((dataAttributes.exclude ?? "").split(',').map(e => e.trim()));
+	const excludeSet = new Set<string>((dataAttributes.exclude ?? "").split(',').map(e => e.trim().toLocaleLowerCase()));
 	const query = urlToStatusQuery(url);
 	const {host, status} = query;
 
@@ -71,7 +70,7 @@ export const loadAccountListsIntoDom = async (listType: "reblogged" | "favourite
 
 	// filter excluded responses out
 	const accounts = (await (listType === "reblogged" ? fetchRebloggedBy(query) : fetchFavouritedBy(query)))
-		.filter( a => !(excludeSet.has(a.id)) || excludeSet.has(a.username));
+		.filter( a => !(excludeSet.has(a.id.toLocaleLowerCase())) || excludeSet.has(a.username.toLocaleLowerCase()));
 
 	accounts.map( renderAccount ).forEach( account => listContainerElement.appendChild(account) );
 };

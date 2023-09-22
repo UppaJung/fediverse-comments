@@ -1,78 +1,74 @@
-# Fedi-Comments
+# Fediverse-Comments
 
-A Script to load a Mastodon status (post/Toot) and it's reply stream (comments) into a webpage, so as to allow blog posts to have comments hosted on Mastodon (or any other Fediverse server supporting the MastodonV1 API).
+A Script to load and render the favourites (likes), reblogs (boosts), and reply stream from a Mastodon status (post/Toot). Pair your blogs posts with a Mastodon status update and this script to allow readers to favourite, boost, and add comments to your posts.
 
-Load the script into a page that contains HTML with annotations that tell the script where to find the root Mastodon post and a template into which comments will be placed.
-
-### HTML template for Favourites/Reblogs
-
-#### Root elements
- - `data-reblogged-url`
- - `data-favourited-url`
-
-#### Child elements: `img`, `name`
+Load the script into a page that contains HTML with annotations that tell the script where to place any or all of the favourites list, the boost list, and the reply stream.
 
 
+#### Host elements
+ - `data-responses-to-url` this element is the container for a comment (status/reply) stream starting at the original post in the URL.
+ - `data-reblogged-url`: the element is the container a set of avatars of users who reblogged (boosted) the original post in the URL.
+ - `data-favourited-url`: the element is the container a set of avatars of users who favourited (liked) the original post in the URL.
 
-### HTML template for Comments
+ All of the above may be paired with a `data-exclude` attribute that supports a list of comma-separated ids of items to exclude. These can be the account id or username of the account liking, reblogging, or commenting. For responses, it can also be the status id of the response. All are case-insensitive.
 
-#### Root element: `data-responses-to-url`
+A comment element with `data-responses-to-url` may also include the optional attributes:
+ - `data-max`: a number representing the maximum number of posts to display. (Better to not limit the list and scroll as necessary). Note that mastodon's API has built-in limits on the number of elements it will return, anyway.
+ - `data-include`: similar to `data-exclude`, but ensures items are not deleted when trimming the list to meet the `data-max` requirement.
+
+#### Example
 Identify the root element of the template using the attribute `data-responses-to-url`, which should contain the URL to a post (a `status` in FediVerse speak) on a server that supports the Mastodon v1 API. For example:
 ```html
-	<div data-responses-to-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
-	</div>
+	<div
+		class="fediverse-favourites-list"
+		data-favourited-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494"
+	></div>
+	<div
+		class="fediverse-reblogged-list"
+		data-reblogged-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494"
+	></div>
+	<div
+		class="fediverse-comments"
+		data-responses-to-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494"
+		exclude="NetTroll42"
+	></div>
+	<script src="/fediverse-comments.js"></script>
 ```
 
-Your root element may also include the optional attributes:
- - `data-max`: a number representing the maximum number of posts to display.
- - `data-exclude`: a comma-separated list of status IDs of posts to exclude (e.g., those you found disrespectful). Responses to this response (and so on) will also be excluded. The status id is the long number associated with a post.
- - `data-include`: a comma-separated list of status IDs of responses to try to include within the limits of the maximum number of posts to display.
+#### Styling
 
+Global
+- `emoji`
+- `original-poster`
 
-#### Child elements: `author`, `content`, & `replies`
-Under your root element place three child elements: one for the `author` of the post, one for the `content` of the post, and one for any `replies` to that post. The sub-elements should either have classes of `author`, `content`, and `replies` or have attribute `data-response-type` set to each of those three strings.
+Comments
+- `fediverse-comment`
+	- `comment-header`
+		- `comment-authors-avatar-link`
+			- `comment-authors-avatar`
+		- `comment-author`
+			- `comment-authors-display-name`
+			- `comment-authors-fediverse-identity`
+				- `at-symbol`
+				- `username-at-symbol`
+				- `comment-authors-fediverse-username`
+				- `server-at-symbol`
+				- `comment-authors-fediverse-server`
+	- `comment-content`
+	- `comment-footer`
+		- `comment-counters`
+			- `comment-counter-favourites`
+			- `comment-counter-reblogs`
+		- `comment-time`
+	- `comment-replies`
 
-Within the author element you may place two sub elements with classes:
- - `author-name`: to be populated with the author's display name, such as  'Stuart Schechter'. If not used, the display name will be added into the element with the `author` class.
- - `author-handle`: to be populated with the author's fediverse handle (e.g., @MildlyAggrievedScientist@mastodon.social). If not used, the handle will be added into the element with the `author` class after the display name.
+Favourite/Reblog lists
 
-Example using standard class names to identify child elements
-```html
-<div data-responses-to-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
-	<div class="response-author">
-		<span class="response-author-name"></span>
-		<span class="response-author-handle"></span>
-	</div>
-	<div class="response-content"></div>
-	<div class="response-replies"></div>
-</div>
-<script src="/fedi-comments.js"></script>
-```
+- `fediverse-account`
+	- `fediverse-account-avatar-link`
+		- `fediverse-account-avatar`
 
+### Acknowledgements
 
-### Class names
+Borrows some structure and code for the comments elements from a [similar solution by Carl Schwan](https://carlschwan.eu/2020/12/29/adding-comments-to-your-static-blog-with-mastodon/), as my original version did not have support for avatars, emoji, or [microdata](https://developer.mozilla.org/en-US/docs/Web/HTML/Microdata) (`itemscope` & `itemprop`).
 
- - `author`: identifies the element into which the script should place content describing the author of a post.
- - `content`: identifies the element into which the script should load the content of the post.
- - `replies`: identifies the element into which replies should be added. For left-to-right languages like english, this class should have a `margin-left` styling to shift replies to the right. A more language-agnostic approach can also be implemented via flex-boxes.
- - `author-name`: the child of the author element into which to place the display name of the author. If not set, the script will add a child element to the `author` element to hold the author's display name.
- - `author-handle`: the child of the author element into which to place the fediverse handle (@name@host) of the author. If not set, the script will insert an child of the `author` element to hold the author's handle.
- - `fediverse-handle-name`: the script will add this class to the user name of a fediverse handle of the author of a post. For @MildlyAggrievedScientist@Mastodon.social, this class will be added to the element containing the @MildlyAggrievedScientist (currently implemented as an A element linking to the user's fediverse account). The script will NOT look for elements with the class name. It will only add it.
- - `fediverse-host-name`: the script will add to the host name of a fediverse handle of the author of a post. For @MildlyAggrievedScientist@Mastodon.social, this class will be added to the element containing the @Mastodon.social (currently implemented as an span element).  The script will NOT look for elements with the class name. It will only add it.
-
-### Specifying elements using `data-response-type`
-If you have reason not to use the above class names, you can identify elements to the script using the attribute `data-response-type` set to the specified class name for that element type. For example, for the element you want to contain the author, instead of assigning the class `author`, you can set the element's attribute `data-response-typ='author'`.
-
-
-So, one could create the following template using the attribute `data-response-type` attribute to identify child elements
-```html
-<div data-responses-to-url="https://mastodon.social/@MildlyAggrievedScientist/110826278791052494">
-	<div data-response-type="author">
-		<span data-response-type="author-name"></span>
-		<span data-response-type="author-handle"></span>
-	</div>
-	<div data-response-type="content"></div>
-	<div data-response-type="replies"></div>
-</div>
-<script src="/fedi-comments.js"></script>
-```
