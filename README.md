@@ -70,5 +70,5 @@ Favourite/Reblog lists
 
 ### Acknowledgements
 
-Borrows some structure and code for the comments elements from a [similar solution by Carl Schwan](https://carlschwan.eu/2020/12/29/adding-comments-to-your-static-blog-with-mastodon/), as my original version did not have support for avatars, emoji, or [microdata](https://developer.mozilla.org/en-US/docs/Web/HTML/Microdata) (`itemscope` & `itemprop`).
+This solution borrows some structure and code for the comments elements from a [similar solution by Carl Schwan](https://carlschwan.eu/2020/12/29/adding-comments-to-your-static-blog-with-mastodon/), as my original solution did not have support for avatars, emoji, or [microdata](https://developer.mozilla.org/en-US/docs/Web/HTML/Microdata) (`itemscope` & `itemprop`).
 

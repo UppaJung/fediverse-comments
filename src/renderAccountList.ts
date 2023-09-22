@@ -29,7 +29,7 @@ const renderAccount = (account: Account) => {
 	const avatarImg = constructElement("img", {
 		classes: ["fediverse-account-avatar"], attributes: {
 			src: account.avatar_static,
-			alt: `@${account.username}@${accountsHostName} avatar`,
+			alt: `${account.display_name} (@${account.username}@${accountsHostName}) avatar`,
 		}
 	});
 
@@ -38,7 +38,7 @@ const renderAccount = (account: Account) => {
 		classes: ["fediverse-account-avatar-link"], attributes: {
 			href: account.url,
 			rel: "external nofollow",
-			title: `@${account.username}@${accountsHostName}`,
+			title: `${account.display_name} (@${account.username}@${accountsHostName})`,
 		}, children: [avatarPicture]
 	});
 
