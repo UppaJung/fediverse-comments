@@ -9,9 +9,8 @@ type RootDataAttribute = NonNullable<(typeof DataAttributes)[number]>;
 export type RootElementDataAttributes = Partial<Record<RootDataAttribute, string>>;
 
 export type AccountListClassNames =
-	"fediverse-account" |
-		"fediverse-account-avatar-link" |
-			"fediverse-account-avatar"
+	"fediverse-account-avatar-link" |
+		"fediverse-account-avatar"
 ;
 
 const constructElement = constructElementFactory<AccountListClassNames>();

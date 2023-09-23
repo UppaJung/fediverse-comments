@@ -23,6 +23,7 @@ export type CommentClassNames =
 			"comment-counters" |
 				"comment-counter-favourites" |
 				"comment-counter-reblogs" |
+			"comment-link-to-original" |
 			"comment-time" |
 		"comment-replies"
 ;
@@ -51,7 +52,7 @@ export const renderComments = (comments: Status[], originalPosterAccount: Accoun
 
 		const avatarPicture = constructElement("picture", { children: [avatarSource, avatarImg] });
 		const avatarLink = constructElement("a", {
-			classes: ["comment-authors-avatar-link", ...(isOriginalPoster ? ["original-poster"] as const : [])], attributes: {
+			classes: ["comment-authors-avatar-link"], attributes: {
 				href: comment.account.url,
 				rel: "external nofollow",
 				title: `view profile at @${comment.account.username}@${commentAuthorsFediverseHost}`,
@@ -83,7 +84,7 @@ export const renderComments = (comments: Status[], originalPosterAccount: Accoun
 		});
 
 		const fediverseIdentityElement = constructElement("a", {
-			classes: ["comment-authors-fediverse-identity", ...(isOriginalPoster ? ["original-poster"] as const : [])],
+			classes: ["comment-authors-fediverse-identity"],
 			attributes: {
 				href: comment.account.url,
 				title: `@${comment.account.username}@${commentAuthorsFediverseHost}`,
@@ -99,9 +100,13 @@ export const renderComments = (comments: Status[], originalPosterAccount: Accoun
 			children: [displayNameElement, fediverseIdentityElement]
 		});
 
-		const headerElement = constructElement("header", { classes: ["comment-header"], children: [avatarLink, authorElement] });
+		const headerElement = constructElement("header", {
+			classes: ["comment-header", ...(isOriginalPoster ? ["original-poster"] as const : [])],
+			children: [avatarLink, authorElement]
+		});
 
 		const originalStatusLink = constructElement("a", {
+			classes: ["comment-link-to-original"],
 			textContent: "original post",
 			attributes: {
 				href: comment.url ?? "",
@@ -158,7 +163,7 @@ export const renderComments = (comments: Status[], originalPosterAccount: Accoun
 		});
 
 		const footerElement = constructElement("footer", {
-			classes: ["comment-footer"],
+			classes: ["comment-footer", ...(isOriginalPoster ? ["original-poster"] as const : [])],
 			children: [
 				counters,
 				originalStatusLink,
@@ -171,7 +176,7 @@ export const renderComments = (comments: Status[], originalPosterAccount: Accoun
 
 		const commentElement = constructElement("article", {
 			id: `comment-${comment.id}`,
-			classes: ["fediverse-comment", ...(isOriginalPoster ? ["original-poster"] as const : [])],
+			classes: ["fediverse-comment"],
 			attributes: {
 				itemprop: "comment",
 				itemtype: "http://schema.org/Comment",
