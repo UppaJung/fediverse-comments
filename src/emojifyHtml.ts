@@ -17,7 +17,7 @@ export const emojifyHtml = (html: string, emojis: CustomEmoji[]): string => {
 			}
 		});
 
-		const picture = constructElement("picture", { children: [source, img] });
+		const picture = constructElement("picture", { classes: ["emoji"], children: [source, img] });
 
 		emojifiedHtml = emojifiedHtml.replace(`:${emoji.shortcode}:`, picture.outerHTML);
 	});

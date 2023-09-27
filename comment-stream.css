@@ -195,7 +195,10 @@ body.dark .fediverse-comment .comment-content {
 */
 .fediverse-comment .comment-authors-display-name {
 	/* Boldface the author's display name to make it salient */
-	font-weight: bold;
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
 }
 
 /*

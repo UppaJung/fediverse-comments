@@ -50,7 +50,10 @@ export const renderComments = (comments: Status[], originalPosterAccount: Accoun
 			}
 		});
 
-		const avatarPicture = constructElement("picture", { children: [avatarSource, avatarImg] });
+		const avatarPicture = constructElement("picture", {
+				classes: ["comment-authors-avatar"],
+				children: [avatarSource, avatarImg]
+		});
 		const avatarLink = constructElement("a", {
 			classes: ["comment-authors-avatar-link"], attributes: {
 				href: comment.account.url,
