@@ -16,9 +16,9 @@ const fetchJson = async <T>(...args: Parameters<typeof fetch>): Promise<T> => {
 };
 export const fetchContext = ({ host, status }: StatusQuery) => fetchJson<ContextResponseJson>(`https://${host}/api/v1/statuses/${status}/context?limit=1`, {});
 export const fetchReplies = (query: StatusQuery) => fetchContext(query).then( x => x.descendants );
-export const fetchStatus = async ({ host, status }: StatusQuery) => fetchJson<Status>(`https://${host}/api/v1/statuses/${status}, {});`);
-export const fetchRebloggedBy = async ({ host, status }: StatusQuery) => fetchJson<Account[]>(`https://${host}/api/v1/statuses/${status}/reblogged_by`, {});
-export const fetchFavouritedBy = async ({ host, status }: StatusQuery) => fetchJson<Account[]>(`https://${host}/api/v1/statuses/${status}/favourited_by`, {});
+export const fetchStatus = ({ host, status }: StatusQuery) => fetchJson<Status>(`https://${host}/api/v1/statuses/${status}`, {});
+export const fetchRebloggedBy = ({ host, status }: StatusQuery) => fetchJson<Account[]>(`https://${host}/api/v1/statuses/${status}/reblogged_by`, {});
+export const fetchFavouritedBy = ({ host, status }: StatusQuery) => fetchJson<Account[]>(`https://${host}/api/v1/statuses/${status}/favourited_by`, {});
 export const fetchOriginalStatusAndReplies= async (statusQuery: StatusQuery | string) => {
 	const query = (typeof statusQuery === "string") ? urlToStatusQuery(statusQuery) : statusQuery; 
 	const [original, replies] = await Promise.all([fetchStatus(query), fetchReplies(query)]);
